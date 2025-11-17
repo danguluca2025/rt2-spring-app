@@ -1,6 +1,12 @@
 package jp.co.sss.crud.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jp.co.sss.crud.entity.Employee;
+import jp.co.sss.crud.form.EmployeeForm;
+import jp.co.sss.crud.repository.EmployeeRepository;
+import jp.co.sss.crud.util.BeanManager;
 
 /**
  * 従業員更新サービスクラス。
@@ -19,9 +25,17 @@ public class UpdateEmployeeService {
 	 * Spring DIによって自動注入されます。
 	 */
 	//TODO ここに記述
+	@Autowired
+	EmployeeRepository employeeRepository;
 
 	/**
 	 * 従業員情報を更新します。
+	 * 
+	 * 更新の確認ビュー（update_check）で「変更」ボタンを押すと
+	 * UpdateControllerのcompleteUpdate(POST)メソッドが実行される
+	 * update_checkでフォームスコープに保存されたデータがEmployeeエンティティのオブジェクトに渡し
+	 * empIdがnullでなければ（if文使用）渡された情報をリポジトリのsaveメソッドで更新処理実行し
+	 * Employeeエンティティのオブジェクトに保存
 	 * 
 	 * EmployeeFormに格納された従業員情報をEmployeeエンティティに変換し、
 	 * データベース上の既存レコードを更新します。
@@ -31,5 +45,12 @@ public class UpdateEmployeeService {
 	 * @param employeeForm 更新する従業員情報を格納したフォームオブジェクト（従業員IDを含む必要があります）
 	 */
 	//TODO ここに記述
+	public void execute(EmployeeForm employeeForm) {
+		Employee employee = BeanManager.copyFormToEntity(employeeForm);
+//		if(employeeRepository.getReferenceById(employeeForm.getEmpId())!= null) {
+//			employee = employeeRepository.save(employee);
+//		}
+		employee = employeeRepository.save(employee);
+	}
 
 }

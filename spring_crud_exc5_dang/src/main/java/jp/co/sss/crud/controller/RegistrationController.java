@@ -3,6 +3,7 @@ package jp.co.sss.crud.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,9 +42,13 @@ public class RegistrationController {
 	 * @return 遷移先のビュー
 	 */
 	@RequestMapping(path = "/regist/check", method = RequestMethod.POST)
-	public String checkRegist(@ModelAttribute EmployeeForm employeeForm, Model model) {
-
-		return "regist/regist_check";
+	public String checkRegist(@ModelAttribute EmployeeForm employeeForm, Model model, BindingResult result) {
+		
+		if (result.hasErrors()) {
+			return "regist/regist_input";
+		}else {
+			return "regist/regist_check";
+		}
 	}
 
 	/**
@@ -69,8 +74,7 @@ public class RegistrationController {
 
 		//登録実行
 		//TODO RegisterEmployeeService完成後にコメントを外す
-		//		service.execute(employeeForm);
-
+		service.execute(employeeForm);
 		return "redirect:/regist/complete";
 	}
 
@@ -81,7 +85,6 @@ public class RegistrationController {
 	 */
 	@RequestMapping(path = "/regist/complete", method = RequestMethod.GET)
 	public String completeRegist() {
-
 		return "regist/regist_complete";
 	}
 

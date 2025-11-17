@@ -93,7 +93,7 @@ public class BeanManager {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		employee.setBirthday((java.sql.Date) form.getBirthday());
+		employee.setBirthday(formatDate);
 		employee.setAuthority(form.getAuthority());
 
 		Department department = new Department();

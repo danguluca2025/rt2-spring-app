@@ -53,6 +53,7 @@ public class LoginService {
 		Integer id = loginForm.getEmpId();
 		String pass = loginForm.getEmpPass();
 		Employee employee = employeeRepository.findByEmpIdAndEmpPass(id, pass);
+		
 		LoginResultBean loginBean = null;
 		if(employee!=null) {
 			EmployeeBean empBean = new EmployeeBean();
