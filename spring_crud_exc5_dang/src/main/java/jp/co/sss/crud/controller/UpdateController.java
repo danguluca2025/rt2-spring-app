@@ -72,9 +72,13 @@ public class UpdateController {
 	 * @return 遷移先のビュー
 	 */
 	@RequestMapping(path = "/update/check", method = RequestMethod.POST)
-	public String checkUpdate(@Valid @ModelAttribute EmployeeForm employeeForm, Model model, BindingResult result) {
+	public String checkUpdate(@Valid @ModelAttribute EmployeeForm employeeForm, BindingResult result, Model model) {
+		if(result.hasErrors()) {
+			return "update/update_input";
+		}else {
+			return "update/update_check";
+		}
 		
-		return "update/update_check";
 	}
 
 	/**

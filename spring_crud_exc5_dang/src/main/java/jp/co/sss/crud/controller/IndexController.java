@@ -46,15 +46,16 @@ public class IndexController {
 		 *empIdとempPassに当てはまる情報を取得し
 		 *セッションスコープでloginUser属性にそういった情報を送る
 		 *list.htmlビューに画面遷移
-		 *
-		 *✖empIdとempPassは存在しないか一致しないの場合は
-		 *エラーメッセージを出力し
-		 *index（ログイン画面）ビューにリダイレクトし
-		 *エラーメッセージを表示
 		 */
 		if (loginResultBean.isLogin()) {
 			sesson.setAttribute("loginUser", loginResultBean.getLoginUser());
 			path = "redirect:/list";
+			/*
+			 *✖empIdとempPassは存在しないか一致しないの場合は
+			 *エラーメッセージを出力し
+			 *index（ログイン画面）ビューにリダイレクトし
+			 *エラーメッセージを表示
+			 */
 		} else {
 			model.addAttribute("errMessage", loginResultBean.getErrorMsg());
 		}
