@@ -12,7 +12,7 @@
 	<div class="update">
 		<form th:action="@{/update/check}" method="post" th:object="${employeeForm}">
 			<p>
-				<span th:each="error:${#fields.detailedErrors()}">
+				<span th:each="error:${#fields.detailedErrors('*')}">
 					<span th:text="${error.message}" class="error"></span><br />
 				</span>
 			</p>

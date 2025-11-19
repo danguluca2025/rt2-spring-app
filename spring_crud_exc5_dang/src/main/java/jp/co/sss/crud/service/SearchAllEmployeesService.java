@@ -44,5 +44,12 @@ public class SearchAllEmployeesService {
 		
 		return tempEmployeeBeans;
 	}
+	
+	public List<EmployeeBean> executeGeneral(){
+		List<Employee> employees = employeeRepository.findByAuthorityOrderByEmpIdAsc(1);
+		List<EmployeeBean> tempEmployeeBeans = BeanManager.copyEntityListToBeanList(employees);
+		
+		return tempEmployeeBeans;
+	}
 
 }

@@ -24,6 +24,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	 */
 	List<Employee> findAllByOrderByEmpIdAsc();
 	
+	List<Employee> findByAuthorityOrderByEmpIdAsc(Integer authority);
+	
 	
 	/**社員名検索
 	 * @param empName

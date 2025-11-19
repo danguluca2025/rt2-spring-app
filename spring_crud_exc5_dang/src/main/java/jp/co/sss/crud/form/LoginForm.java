@@ -15,7 +15,7 @@ public class LoginForm {
 
 	/** パスワード */
 	@NotBlank
-	@Pattern(regexp = "^[a-zA-Z0-9]{0,16}$")
+	@Pattern(regexp = "^[a-zA-Z0-9]{1,16}$")
 	private String empPass;
 
 	/**

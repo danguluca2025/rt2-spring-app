@@ -66,7 +66,7 @@ public class IndexController {
 
 	@RequestMapping(path = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
-
+		
 		session.invalidate();
 		return "redirect:/";
 	}

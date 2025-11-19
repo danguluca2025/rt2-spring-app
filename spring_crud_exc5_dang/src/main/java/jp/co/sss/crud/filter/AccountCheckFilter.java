@@ -40,7 +40,10 @@ public class AccountCheckFilter extends HttpFilter {
 		if (requestURL.endsWith("/") ||
 				requestURL.endsWith("/login") ||
 				requestURL.endsWith("/logout")||
-				requestURL.endsWith("/list")) {
+				requestURL.endsWith("/list")||
+				requestURL.endsWith("/list/empName")||
+				requestURL.endsWith("/list/deptId")||
+				requestURL.contains("/update/input")) {
 			chain.doFilter(request, response);
 			return;
 		}
@@ -76,7 +79,6 @@ public class AccountCheckFilter extends HttpFilter {
 			break;
 		}
 		return;
-		
 		
 	}
 }

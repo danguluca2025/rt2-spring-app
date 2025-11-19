@@ -14,12 +14,12 @@ public class EmployeeForm {
 
 	/** パスワード */
 	@NotBlank
-	@Pattern(regexp = "^[a-zA-Z0-9]{0,16}$")
+	@Pattern(regexp = "^[a-zA-Z0-9]{1,16}$")
 	private String empPass;
 
 	/** 社員名 */
 	@NotBlank
-	@Size(max = 30)
+	@Size(min = 1, max = 30)
 	private String empName;
 
 	/** 性別 */
@@ -27,7 +27,7 @@ public class EmployeeForm {
 
 	/** 住所 */
 	@NotBlank
-	@Size(max = 60)
+	@Size(min = 1, max = 60)
 	private String address;
 
 	/** 生年月日 */

@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jp.co.sss.crud.bean.EmployeeBean;
 import jp.co.sss.crud.service.SearchAllEmployeesService;
 import jp.co.sss.crud.service.SearchForEmployeesByDepartmentService;
@@ -34,12 +36,24 @@ public class ListController {
 	 * @throws ParseException 
 	 */
 	@RequestMapping(path = "/list", method = RequestMethod.GET)
-	public String findAll(Model model) {
+	public String findAll(Model model, HttpSession session, HttpServletRequest request) {
 
 		List<EmployeeBean> allEmployeeList = null;
-		allEmployeeList = searchAllEmployeesService.execute();
 
-		model.addAttribute("employees", allEmployeeList);
+		session = request.getSession();
+		EmployeeBean loginUser = (EmployeeBean) session.getAttribute("loginUser");
+		Integer checkAuthority = (Integer) loginUser.getAuthority();
+		
+		switch (checkAuthority) {
+		case 1:
+			allEmployeeList = searchAllEmployeesService.executeGeneral();
+			model.addAttribute("employees", allEmployeeList);
+			break;
+		case 2:
+			allEmployeeList = searchAllEmployeesService.execute();
+			model.addAttribute("employees", allEmployeeList);
+			break;
+		}
 		return "list/list";
 	}
 

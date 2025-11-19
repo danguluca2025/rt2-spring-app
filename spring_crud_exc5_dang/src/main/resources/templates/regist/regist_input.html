@@ -12,7 +12,7 @@
 	<div class="update">
 		<form th:action="@{/regist/check}" method="post" th:object="${employeeForm}">
 			<p>
-				<span th:each="error:${#fields.detailedErrors()}">
+				<span th:each="error:${#fields.detailedErrors('*')}">
 					<span th:text="${error.message}" class="error"></span><br />
 				</span>
 			</p>
@@ -46,9 +46,9 @@
 			</div>
 
 			<div class="form">
-				<div class="label">生年月日：(YYYY/MM/DD)</div>
+				<div class="label">生年月日：</div>
 				<div class="input required">
-					<input type="text" th:field="*{birthday}" />
+					<input type="text" th:field="*{birthday}" />(YYYY/MM/DD)
 				</div>
 			</div>
 
