@@ -1,40 +1,85 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8" />
+	<meta charset="UTF-8" />
 </head>
+
 <body>
-	<aside th:fragment="layout-sidebar" th:class="${session.user == null or session.user.authority == 2} ? ${'search'} : ${'admin_menu'}" >
-	  <div class="title">社員名検索</div>
-	  <div class="form">
-	    <form th:action="@{/list/empName}" method="get">
-	      <input type="text" name="empName" />
-	      <input type="submit" value="検索" />
-	    </form>
-	  </div>
-	  <div class="title">部署名検索</div>
-	  <div class="form">
-	    <form th:action="@{/list/deptId}" method="get">
+	<aside th:fragment="layout-sidebar"
+		th:class="${session.user == null or session.user.authority == 2} ? ${'search'} : ${'admin_menu'}">
+		<div class="title">社員名検索</div>
+		<div class="form">
+			<form th:action="@{/list/empName}" method="get">
+				<input type="text" name="empName" />
+				<input type="submit" value="検索" />
+			</form>
+		</div>
+		<div class="title">部署名検索</div>
+		<div class="form">
+			<form th:action="@{/list/deptId}" method="get">
 
-	     <span th:if="${selectedDeptId == null}">
-	      	<select name="deptId">
-	        	<option value="1"selected>営業部</option>
-	        	<option value="2">経理部</option>
-	        	<option value="3">総務部</option>
-	      	</select>
-	     </span>
+				<span th:if="${selectedDeptId == null}">
+					<select name="deptId">
+						<option value="1" selected>営業部</option>
+						<option value="2">経理部</option>
+						<option value="3">総務部</option>
+					</select>
+				</span>
 
-	     <span th:unless="${selectedDeptId == null}">
-	     	<select name="deptId">
-	      		<option value="1" th:selected="${selectedDeptId}== '1'">営業部</option>
-	        	<option value="2" th:selected="${selectedDeptId}== '2'">経理部</option>
-	       		<option value="3" th:selected="${selectedDeptId}== '3'">総務部</option>
-	      	</select>
-	     </span>
+				<span th:unless="${selectedDeptId == null}">
+					<select name="deptId">
+						<option value="1" th:selected="${selectedDeptId}== '1'">営業部</option>
+						<option value="2" th:selected="${selectedDeptId}== '2'">経理部</option>
+						<option value="3" th:selected="${selectedDeptId}== '3'">総務部</option>
+					</select>
+				</span>
 
-	     <input type="submit" value="検索" />
-	    </form>
-	  </div>
+				<input type="submit" value="検索" />
+			</form>
+		</div>
+
+		<th:block th:switch="${session.loginUser.authority}">
+			<span th:case="1" style="display:none;"></span>
+			<span th:case="2">
+
+				<div class="title">住所検索</div>
+				<div class="form">
+					<form th:action="@{/list/address}" method="get">
+						<select name="address">
+							<option value="東京都">東京都</option>
+							<option value="千葉県">千葉県</option>
+							<option value="大阪府">大阪府</option>
+							<option value="北海道">北海道</option>
+							<option value="沖縄県">沖縄県</option>
+							<option value="埼玉県">埼玉県</option>
+							<option value="岐阜県">岐阜県</option>
+							<option value="京都府">京都府</option>
+							<option value="島根県">島根県</option>
+							<option value="愛知県">愛知県</option>
+							<option value="福島県">福島県</option>
+							<option value="静岡県">静岡県</option>
+							<option value="神奈川県">神奈川県</option>
+							<option value="群馬県">群馬県</option>
+							<option value="長野県">長野県</option>
+							<option value="高知県">高知県</option>
+						</select>
+						<input type="submit" value="検索" />
+					</form>
+				</div>
+
+				<div class="title">生年月日の範囲検索</div>
+				<div class="form">
+					<form th:action="@{/list/birthday}" method="get">
+						開始日：<input type="text" name="birthday1" placeholder="yyyy/MM/dd" /><br>
+						終了日：<input type="text" name="birthday2" placeholder="yyyy/MM/dd" /><br>
+						<input type="submit" value="検索" />
+					</form>
+				</div>
+				
+			</span>
+		</th:block>
 	</aside>
 </body>
+
 </html>

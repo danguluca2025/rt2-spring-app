@@ -14,6 +14,9 @@ import jp.co.sss.crud.bean.EmployeeBean;
 
 @Component
 public class AccountCheckFilter extends HttpFilter {
+	/**
+	 *
+	 */
 	@Override
 	public void doFilter(HttpServletRequest request,
 			HttpServletResponse response,
@@ -42,11 +45,11 @@ public class AccountCheckFilter extends HttpFilter {
 				requestURL.endsWith("/logout")||
 				requestURL.endsWith("/list")||
 				requestURL.endsWith("/list/empName")||
-				requestURL.endsWith("/list/deptId")||
-				requestURL.contains("/update/input")) {
+				requestURL.endsWith("/list/deptId")) {
 			chain.doFilter(request, response);
 			return;
 		}
+		
 		
 		/* session セッション情報を取得
 		 * 
@@ -69,9 +72,33 @@ public class AccountCheckFilter extends HttpFilter {
 		EmployeeBean loginUser = (EmployeeBean) session.getAttribute("loginUser");
 		Integer checkAuthority = (Integer) loginUser.getAuthority();
 		
+//		Integer checkEmpId = (Integer) loginUser.getEmpId();
+//		String checkEmpIdStr = String.valueOf(checkEmpId);
+//		
+//		if(requestURL.contains("/update/input")) {
+//			chain.doFilter(request, response);
+//			return;
+//		}
+		
 		switch (checkAuthority) {
 		case 1:
-			response.sendRedirect("/spring_crud/");
+//			String requestURI = request.getRequestURI();
+//			String lastSegment = requestURI.substring(requestURI.lastIndexOf("=") + 1);
+//			
+//			System.out.println(requestURI);
+//			System.out.println(lastSegment);
+//			
+//			if(requestURL.contains("/update/input")&&(lastSegment == checkEmpIdStr)) {
+//				chain.doFilter(request, response);
+//				return;
+//				
+//			}else {
+//				String redirectWithAlert = "/spring_crud/" + "?showAlert=true";
+//				response.sendRedirect(redirectWithAlert);
+//				session.invalidate();
+//			}
+			String redirectWithAlert = "/spring_crud/" + "?showAlert=true";
+			response.sendRedirect(redirectWithAlert);
 			session.invalidate();
 			break;
 		case 2:

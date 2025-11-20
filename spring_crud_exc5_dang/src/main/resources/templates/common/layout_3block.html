@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(body)">
+
 <head lang="ja">
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" type="text/css" th:href="@{/css/layout.css}" />
-<link rel="stylesheet" type="text/css" th:href="@{/css/stylesheet.css}" />
-<title>社員管理システム</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/layout.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/stylesheet.css}" />
+	<title>社員管理システム</title>
 </head>
+
 <body>
 	<!--/* ヘッダー */-->
-	<header >
+	<header>
 		<div th:replace="~{common/header :: layout-header}"></div>
 	</header>
 
@@ -22,5 +24,21 @@
 	<footer>
 		<div th:replace="~{common/footer :: layout-footer}"></div>
 	</footer>
+	<script>
+		//URLからクエリパラメータ値を取得する
+		function getQueryParam(name) {
+			const urlParams = new URLSearchParams(window.location.search);
+			return urlParams.get(name);
+		}
+
+		//showAlertパラメータをちゃんと取得するかどうかチェック
+		const showAlert = getQueryParam('showAlert');
+
+		//showAlert=='true'の場合はアラートを出力
+		if (showAlert === 'true') {
+			alert('管理権限がありません。管理者として再度ログインしてください');
+		}
+	</script>
 </body>
+
 </html>
