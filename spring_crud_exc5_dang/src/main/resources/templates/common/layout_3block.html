@@ -37,6 +37,20 @@
 		//showAlert=='true'の場合はアラートを出力
 		if (showAlert === 'true') {
 			alert('管理権限がありません。管理者として再度ログインしてください');
+			const newUrl = new URL(window.location.href);
+			window.onload = function () {
+				//URLを取得
+				let currentUrl = window.location.href;
+
+				//クエリパラメータ（?showAlert===true）をURLから削除
+				let cleanUrl = currentUrl.split('?')[0];
+
+				// 現在のURLをクエリパラメータなしのURLに置き換える
+				// ブラウザのリダイレクトボタンをクリックする際にアラートの出力を防ぐ
+				if (currentUrl !== cleanUrl) {
+					window.history.replaceState({}, document.title, cleanUrl);
+				}
+			};
 		}
 	</script>
 </body>
