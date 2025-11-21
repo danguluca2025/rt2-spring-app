@@ -11,7 +11,7 @@ body {
 .content {
 	display: flex;
 	flex-direction: row;
-	justify-content:space-between;
+	justify-content: space-between;
 	width: 920px;
 	margin: 0px auto;
 }
@@ -58,6 +58,7 @@ aside .title {
 
 aside .form {
 	padding-left: 15px;
+
 }
 
 aside input[type=text] {
@@ -78,7 +79,7 @@ aside input[type=submit] {
 
 /* ---- メイン ---- */
 article {
-	
+
 	width: 700px;
 	padding-left: 20px;
 }
@@ -92,4 +93,3 @@ footer {
 	font-size: 8pt;
 	line-height: 30px;
 }
-

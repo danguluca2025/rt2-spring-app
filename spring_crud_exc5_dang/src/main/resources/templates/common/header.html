@@ -13,34 +13,19 @@
 
 				<!--[更新リンクなし] ユーザあいさつ-->
 				<!--				ようこそ、<span th:text="${session.loginUser.empName}"></span>さん-->
-
-				<!--「追加済」[更新リンクあり] ユーザあいさつ-->
+				
 				<!--<form>使用不可：<input type = "submit">が必要-->
+				
+				<!--「追加済」[更新リンクあり] ユーザあいさつ。実装可能だが、セキュリティ上に推奨されない-->
 				<!--				<a th:href="@{/update/input} + '?empId=' + ${session.loginUser.empId}"-->
 				<!--					th:text="'ようこそ、' + ${session.loginUser.empName} + 'さん'"></a>-->
 
 				<a th:href="@{/update/input(empId=${session.loginUser.empId})}"
 					th:text="'ようこそ、' + ${session.loginUser.empName} + 'さん'"></a>
-				<span class="pipeline">|</span><a th:href="@{/logout}">ログアウト</a>
+				<span class="pipeline"> | </span><a th:href="@{/logout}">ログアウト</a>
 			</div>
 		</div>
 	</th:block>
-	<script>
-		// Function to get a query parameter value from the URL
-		function getQueryParam(name) {
-			const urlParams = new URLSearchParams(window.location.search);
-			return urlParams.get(name);
-		}
-
-		// Check if the 'showAlert' parameter is present
-		const showAlert = getQueryParam('showAlert');
-
-		if (showAlert === 'true') {
-			alert('You were redirected by the Spring Boot filter!');
-			// Optional: Remove the query parameter from the URL bar for a cleaner look
-			history.replaceState({}, document.title, window.location.pathname);
-		}
-	</script>
 </body>
 
 </html>

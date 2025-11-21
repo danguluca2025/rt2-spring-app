@@ -14,9 +14,6 @@ import jp.co.sss.crud.bean.EmployeeBean;
 
 @Component
 public class AccountCheckFilter extends HttpFilter {
-	/**
-	 *
-	 */
 	@Override
 	public void doFilter(HttpServletRequest request,
 			HttpServletResponse response,
@@ -58,54 +55,70 @@ public class AccountCheckFilter extends HttpFilter {
 		 * そのユーザ丸ごとの情報を一旦取得するため型はEmployeeBeanとなる
 		 * 
 		 * checkAuthority  ユーザ丸ごとの情報からゲッターでauthority情報を取得
-		 * 
-		 * switch (checkAuthority)  上記の「loginUser」変数を条件分岐で判定
-		 * case 1(authority==1)：一般ユーザログインの場合：
-		 * /listより先に進めたい（登録・変更・削除）ときにアクセス制限（ブラウザーのURLバーによるアクセスも含む）
-		 * /spring_crud/にリダイレクト。@Controllerにある return "/";と同様
-		 * session.invalidate()メソッドでログインセッション終了
-		 * 
-		 * case 2(authority==2)：管理者ログイン
-		 * アクセス制限なし
-		 * */
+		 */
 		HttpSession session = request.getSession();
 		EmployeeBean loginUser = (EmployeeBean) session.getAttribute("loginUser");
 		Integer checkAuthority = (Integer) loginUser.getAuthority();
 		
-//		Integer checkEmpId = (Integer) loginUser.getEmpId();
-//		String checkEmpIdStr = String.valueOf(checkEmpId);
-//		
-//		if(requestURL.contains("/update/input")) {
-//			chain.doFilter(request, response);
-//			return;
-//		}
+		/* ログイン中のempId情報とアクセスする（しようとしている）URLのパラメータ部分を比較するため
+		 * のつづき
+		 * loginUserからログイン中のユーザId(empId)を取得する
+		 * キャストは不要
+		 * */
+		Integer checkEmpId = loginUser.getEmpId();
 		
+		/*
+		 * switch (checkAuthority)  上記の「loginUser」変数を条件分岐で判定
+		 * 
+		 * case 1(authority==1)：一般ユーザログインの場合：
+		 * アクセスしようとするURLの末尾（empIdパラメータ）　と　取得したログイン中のユーザId
+		 * ネストif文でさらに条件分け：
+		 * empIdInt == checkEmpId
+		 * 
+		 * [true]
+		 * 一致する場合 + アクセスしようとするURLは更新処理である
+		 * → フィルタに通してもらう
+		 * returnで処理終了する
+		 * 
+		 * [false]
+		 * アクセスしようとするURL：
+		 * ブラウザーのURLバーによる「登録」・「変更（別ユーザ）」・「削除」
+		 * のアクセスを制限
+		 * /spring_crud/にリダイレクト。@Controllerにある return "/";と同様
+		 * session.invalidate()メソッドでログインセッション終了
+		 * returnで処理終了する
+		 * 
+		 * case 2(authority==2)：管理者ログイン
+		 * アクセス制限なし
+		 * */
 		switch (checkAuthority) {
 		case 1:
-//			String requestURI = request.getRequestURI();
-//			String lastSegment = requestURI.substring(requestURI.lastIndexOf("=") + 1);
-//			
-//			System.out.println(requestURI);
-//			System.out.println(lastSegment);
-//			
-//			if(requestURL.contains("/update/input")&&(lastSegment == checkEmpIdStr)) {
-//				chain.doFilter(request, response);
-//				return;
-//				
-//			}else {
-//				String redirectWithAlert = "/spring_crud/" + "?showAlert=true";
-//				response.sendRedirect(redirectWithAlert);
-//				session.invalidate();
-//			}
-			String redirectWithAlert = "/spring_crud/" + "?showAlert=true";
-			response.sendRedirect(redirectWithAlert);
-			session.invalidate();
+			/* ログイン中のempId情報とアクセスする（しようとしている）URLのパラメータ部分を比較するため
+			 * 
+			 * empIdパラメータを取得（/update/input?empId=1）の「=」の後ろの数値
+			 * → 文字列型なので String型のempIdStringで取得する
+			 * empIdString = "1"
+			 * このあとloginUser情報からログインしたユーザのempId値（Integer型）と比較するのでキャスト
+			 * empIdInt = 1
+			 * */
+			String empIdString = request.getParameter("empId");
+			Integer empIdInt = Integer.parseInt(empIdString);
+			if(requestURL.contains("/update/input")&&(empIdInt == checkEmpId)) {
+				chain.doFilter(request, response);
+				return;
+				
+			}else {
+				String redirectWithAlert = "/spring_crud/" + "?showAlert=true";
+				response.sendRedirect(redirectWithAlert);
+				session.invalidate();
+			}
+//			response.sendRedirect("/spring_crud/");
+//			session.invalidate();
 			break;
 		case 2:
 			chain.doFilter(request, response);
 			break;
 		}
 		return;
-		
 	}
 }

@@ -41,6 +41,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	 * @return
 	 */
 	List<Employee> findByEmpNameContaining(String empName);
+	
+	@Query("SELECT e FROM Employee e WHERE e.empName LIKE %:empName% AND e.authority = 1")
+	List<Employee> findByEmpNameGeneral(String empName);
 
 	
 	/**部署ID検索
@@ -52,7 +55,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	 */
 	List<Employee> findByDepartment(Department department);
 	
-	List<Employee> findByAddress(String address);
+	List<Employee> findByDepartmentAndAuthority(Department department,Integer authority);
+	
+	List<Employee> findByAddressInOrderByEmpId(List<String> addressList);
 	
 	@Query("SELECT e FROM Employee e WHERE e.birthday BETWEEN :birthday1 AND :birthday2")
 	List<Employee> findByBirthday(Date birthday1, Date birthday2);

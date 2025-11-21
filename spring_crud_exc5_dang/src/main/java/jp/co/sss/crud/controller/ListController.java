@@ -7,9 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -69,6 +69,8 @@ public class ListController {
 
 	/**
 	 * 社員情報を社員名検索した結果を出力
+	 * case 1（一般ユーザ）：一般ユーザ同士のみ検索可能
+	 * case 2（管理者）：当てはまるレコードをすべて検索可能
 	 *
 	 * @param empName 検索対象の社員名
 	 * @param model モデル
@@ -76,14 +78,25 @@ public class ListController {
 	 * @throws ParseException 
 	 */
 	@RequestMapping(path = "/list/empName", method = RequestMethod.GET)
-	public String findByEmpName(String empName, Model model) {
+	public String findByEmpName(String empName, Model model, 
+			HttpSession session, HttpServletRequest request) {
 
 		List<EmployeeBean> searchByEmpNameList = null;
-
-		//TODO SearchForEmployeesByEmpNameService完成後にコメントを外す
-		searchByEmpNameList = searchForEmployeesByEmpNameService.execute(empName);
-
-		model.addAttribute("employees", searchByEmpNameList);
+		
+		session = request.getSession();
+		EmployeeBean loginUser = (EmployeeBean) session.getAttribute("loginUser");
+		Integer checkAuthority = (Integer) loginUser.getAuthority();
+		
+		switch (checkAuthority) {
+		case 1:
+			searchByEmpNameList = searchForEmployeesByEmpNameService.executeGeneral(empName);
+			model.addAttribute("employees", searchByEmpNameList);
+			break;
+		case 2:
+			searchByEmpNameList = searchForEmployeesByEmpNameService.execute(empName);
+			model.addAttribute("employees", searchByEmpNameList);
+			break;
+		}
 		return "list/list";
 	}
 
@@ -96,34 +109,41 @@ public class ListController {
 	 * @throws ParseException 
 	 */
 	@RequestMapping(path = "/list/deptId", method = RequestMethod.GET)
-	public String findByDeptId(Integer deptId, Model model) {
+	public String findByDeptId(Integer deptId, Model model, 
+			HttpSession session, HttpServletRequest request) {
 
 		List<EmployeeBean> searchByDepartmentList = null;
-
-		//TODO SearchForEmployeesByDepartmentService完成後にコメントを外す
-		searchByDepartmentList = searchForEmployeesByDepartmentService.execute(deptId);
-
-		model.addAttribute("employees", searchByDepartmentList);
+		
+		session = request.getSession();
+		EmployeeBean loginUser = (EmployeeBean) session.getAttribute("loginUser");
+		Integer checkAuthority = (Integer) loginUser.getAuthority();
+		
+		switch (checkAuthority) {
+		case 1:
+			searchByDepartmentList = searchForEmployeesByDepartmentService.executeGeneral(deptId);
+			model.addAttribute("employees", searchByDepartmentList);
+			break;
+		case 2:
+			searchByDepartmentList = searchForEmployeesByDepartmentService.execute(deptId);
+			model.addAttribute("employees", searchByDepartmentList);
+			break;
+		}
 		return "list/list";
 	}
 	
-	@GetMapping("/list/address")
-	public String findByAddress(String address, Model model) {
+	@RequestMapping(path = "/list/address",method = RequestMethod.GET)
+	public String findByAddress(@RequestParam(name = "address", required = false) List<String> addressList, Model model) {
 		List<EmployeeBean> searchByAdressList = null;
 
-		//TODO SearchForEmployeesByDepartmentService完成後にコメントを外す
-		searchByAdressList = searchForEmployeesByAddressService.execute(address);
-
+		searchByAdressList = searchForEmployeesByAddressService.execute(addressList);
 		model.addAttribute("employees", searchByAdressList);
 		return "list/list";
 	}
-	@GetMapping("/list/birthday")
-	public String findByBirthday(
-			Date birthday1, 
-			Date birthday2, Model model) {
+	
+	@RequestMapping(path = "/list/birthday",method = RequestMethod.GET)
+	public String findByBirthday(Date birthday1, Date birthday2, Model model) {
 		List<EmployeeBean> searchByBirthdayList = null;
 		
-		//TODO SearchForEmployeesByDepartmentService完成後にコメントを外す
 		searchByBirthdayList = searchForEmployeesByBirthdayService.execute(birthday1,birthday2);
 		
 		model.addAttribute("employees", searchByBirthdayList);

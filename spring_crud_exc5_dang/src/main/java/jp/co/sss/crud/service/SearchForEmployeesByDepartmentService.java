@@ -56,5 +56,19 @@ public class SearchForEmployeesByDepartmentService {
 		
 		return tempEmployeeBeans;
 	}
+	public List<EmployeeBean> executeGeneral(Integer deptId){
+		//リポジトリのSQL文を実行する際にdeptId情報を取得する必要なオブジェクトなので生成
+		Department department = new Department();
+		/*生成されたオブジェクトは空の状態なので
+		 *スコープからのdeptId情報をセッターでオブジェクトに取得
+		 */
+		department.setDeptId(deptId);
+		//検索結果を取得するリスト型オブジェクトを定義し、リポジトリにある検索メソッドの実行結果を代入
+		List<Employee> employees = employeeRepository.findByDepartmentAndAuthority(department,1);
+		//上記の検索結果オブジェクトをBeanオブジェクトにコピー
+		List<EmployeeBean> tempEmployeeBeans = BeanManager.copyEntityListToBeanList(employees);
+		
+		return tempEmployeeBeans;
+	}
 
 }

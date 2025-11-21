@@ -48,5 +48,12 @@ public class SearchForEmployeesByEmpNameService {
 		
 		return tempEmployeeBeans;
 	}
+	
+	public List<EmployeeBean> executeGeneral(String empName){
+		List<Employee> employees = employeeRepository.findByEmpNameGeneral(empName);
+		List<EmployeeBean> tempEmployeeBeans = BeanManager.copyEntityListToBeanList(employees);
+		
+		return tempEmployeeBeans;
+	}
 
 }

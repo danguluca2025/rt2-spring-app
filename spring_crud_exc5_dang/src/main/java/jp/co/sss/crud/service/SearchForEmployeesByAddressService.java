@@ -15,8 +15,8 @@ public class SearchForEmployeesByAddressService {
 	@Autowired
 	EmployeeRepository employeeRepository;
 	
-	public List<EmployeeBean> execute(String address){
-		List<Employee> employees = employeeRepository.findByAddress(address);
+	public List<EmployeeBean> execute(List<String> addressList){
+		List<Employee> employees = employeeRepository.findByAddressInOrderByEmpId(addressList);
 		List<EmployeeBean> tempEmployeeBeans = BeanManager.copyEntityListToBeanList(employees);
 		
 		return tempEmployeeBeans;
