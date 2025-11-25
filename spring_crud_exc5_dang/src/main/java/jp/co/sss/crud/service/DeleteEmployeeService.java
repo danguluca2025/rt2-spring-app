@@ -17,6 +17,7 @@ import jp.co.sss.crud.repository.EmployeeRepository;
 public class DeleteEmployeeService {
 
 	/**
+	 * [管理者専用]
 	 * 従業員データアクセス用リポジトリフィールド。
 	 * Spring DIによって自動注入されます。
 	 */

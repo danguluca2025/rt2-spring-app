@@ -30,7 +30,10 @@ public class SearchForEmployeesByDepartmentService {
 	//TODO ここに記述
 	@Autowired
 	EmployeeRepository employeeRepository;
+	
+	
 	/**
+	 * [管理者用]
 	 * 指定された部署に所属する従業員情報を取得します。
 	 * 
 	 * 部署IDを基に該当部署のDepartmentオブジェクトを作成し、
@@ -56,6 +59,20 @@ public class SearchForEmployeesByDepartmentService {
 		
 		return tempEmployeeBeans;
 	}
+	
+	
+	/**
+	 * [一般ユーザ用]
+	 * 指定された部署に所属する 一般権限 従業員情報を取得します。
+	 * 
+	 * 部署IDを基に該当部署のDepartmentオブジェクトを作成し、
+	 * そのDepartmentオブジェクトを使用して一般権限従業員検索を行います。
+	 * 検索結果はBeanManagerを使用してEmployeeBeanリストに変換して返却します。
+	 * 
+	 * @param deptId 検索対象の部署ID
+	 * @return 指定部署に所属する従業員のEmployeeBeanリスト（従業員ID昇順）。
+	 *         該当する従業員が存在しない場合は空のリストを返却
+	 */
 	public List<EmployeeBean> executeGeneral(Integer deptId){
 		//リポジトリのSQL文を実行する際にdeptId情報を取得する必要なオブジェクトなので生成
 		Department department = new Department();

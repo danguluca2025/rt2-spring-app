@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/layout-fixed.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/stylesheet-fixed.css}" />
+	<title>エラー画面</title>
+
+</head>
+
+<body>
+	<div class="error-page">
+		<h1>エラーが発生しました。</h1>
+		
+		<div class="error-box">
+			<h2>抽出された時間</h2>
+			<div th:text="'timestamp: ' + ${timestamp}"></div>
+		</div>
+
+		<div class="error-box">
+			<h2>ステータスコード</h2>
+			<div th:text="'status: ' + ${status}"></div>
+		</div>
+
+		<div class="error-box">
+			<h2>エラーの理由</h2>
+			<div th:text="'error: ' + ${error}"></div>
+		</div>
+
+		<div class="error-box">
+			<h2>例外</h2>
+			<div th:text="'exception: ' + ${exception}"></div>
+		</div>
+
+		<div class="error-box">
+			<h2>例外メッセージ</h2>
+			<div th:text="'message: ' + ${message}"></div>
+		</div>
+
+		<div class="error-box">
+			<h2>バインディングエラー</h2>
+			<div th:text="'errors: ' + ${errors}"></div>
+		</div>
+
+		<div class="error-box">
+			<h2>スタックトレース</h2>
+			<div th:text="'trace: ' + ${trace}"></div>
+		</div>
+		<div class="error-box">
+			<h2>例外発生時のURLパス</h2>
+			<div th:text="'path: ' + ${path}"></div>
+		</div>
+	</div>
+</body>
+
+</html>

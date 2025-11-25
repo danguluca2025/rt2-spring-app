@@ -40,11 +40,7 @@ public class SearchForEmployeesByEmpIdService {
 	//TODO ここに記述
 	/**
 	 * 
-	 * 
 	 * 更新、削除する際に必要な主キー検索
-	 * ただ単にそれだけ
-	 * 
-	 * 
 	 * 
 	 * @param empId
 	 * @return

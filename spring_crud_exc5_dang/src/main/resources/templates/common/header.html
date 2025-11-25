@@ -21,7 +21,7 @@
 				<!--					th:text="'ようこそ、' + ${session.loginUser.empName} + 'さん'"></a>-->
 
 				<a th:href="@{/update/input(empId=${session.loginUser.empId})}"
-					th:text="'ようこそ、' + ${session.loginUser.empName} + 'さん'" title="プロファイル編集"></a>
+					th:text="'ようこそ、' + ${session.loginUser.empName} + 'さん'" title="プロフィールを変更"></a>
 				<span class="pipeline"> | </span><a th:href="@{/logout}">ログアウト</a>
 			</div>
 		</div>

@@ -1,0 +1,258 @@
+﻿@charset "UTF-8";
+
+/*--- 共有 ---*/
+a {
+	text-decoration: none;
+	color: #12526d;
+}
+
+a:hover {
+	color: aliceblue;
+	font-weight: bold;
+}
+
+a:focus {
+	color: #12526d;
+}
+
+/* ---- 文字の色 ---- */
+body {
+	color: #12526d;
+}
+
+/* ---- ページタイトル ---- */
+h3 {
+	padding-left: 20px;
+}
+
+/*--- スクロールバー全体 ---*/
+::-webkit-scrollbar {
+	width: 12px;
+	/* Set width for vertical scrollbars */
+	height: 12px;
+	/* Set height for horizontal scrollbars */
+}
+
+/* Style the scrollbar track */
+::-webkit-scrollbar-track {
+	background-color: #f1f1f1;
+	border-radius: 10px;
+}
+
+/* Style the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+	background-color: #87CEEB;
+	border-radius: 10px;
+	border: 3px solid #f1f1f1;
+	/* Creates a padding effect */
+}
+
+/* Style the scrollbar thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+	background-color: #555;
+}
+
+/* ---- 社員登録入力画面へのリンク ---- */
+div.regist_link {
+	padding-right: 35px;
+	padding-bottom: 10px;
+	text-align: right;
+}
+
+.regist_link a,
+.message p a {
+	background-color: #87CEEB;
+	border-radius: 8px;
+	padding: 0.5rem 0.5rem;
+}
+
+.regist_link {
+	margin-bottom: 0.5rem;
+}
+.regist_link a:hover{
+	background-color: darkorange;
+}
+
+/* ---- 社員情報一覧テーブル ---- */
+.table-container {
+	max-height: 60vh;
+	overflow: auto;
+}
+
+table {
+	background-color: #FFFFFF;
+	border-color: #87CEEB;
+	border-collapse:collapse;
+	margin: 0px auto 20px;
+	text-align: center;
+}
+
+table td,
+table th {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #87CEEB;
+	padding: 5px;
+}
+
+thead th{
+	position: sticky;
+	top: 0;
+	background-color: #87CEEB;
+	z-index: 1;
+}
+
+table tr:hover {
+	background-color: #87CEEB;
+}
+
+td.data {
+	width: 60px;
+}
+
+th.empId {
+	width: 60px;
+}
+
+th.empName {
+	width: 80px;
+}
+
+th.gender {
+	width: 50px;
+}
+
+th.address {
+	width: 80px;
+}
+
+th.birthday {
+	width: 100px;
+}
+
+th.authority {
+	width: 60px;
+}
+
+th.deptName {
+	width: 60px;
+}
+
+th.button {
+	width: 60px;
+}
+
+td.button {
+	text-align: center;
+}
+
+/* ---- 入力フォーム(検索、登録、変更、削除) ---- */
+div.form {
+	display: flex;
+	width: 720px;
+	margin: 0px auto;
+}
+
+div.label {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	width: 245px;
+	height: 35px;
+	padding-right: 5px;
+	text-align: right;
+}
+
+div.input {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	width: 470px;
+	height: 35px;
+	text-align: left;
+
+}
+
+select {
+	font-size: 10pt;
+	color: #12526d;
+}
+
+/* ---- 入力フォーム(ログイン) ---- */
+.login_block {
+	width: 90vw;
+}
+
+.login_box {
+	background-color: #87CEEB;
+	width: 30vw;
+	padding: 20px;
+	border-radius: 5px;
+}
+
+.login_form {
+	display: grid;
+	grid-template-columns: repeat(1, auto);
+	place-content: center;
+	height: 50vh;
+	text-align: center;
+}
+
+.login_label {
+	font-weight: bolder;
+}
+
+div.login_input {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+}
+
+input[type=text],
+input[type=password] {
+	border-radius: 5px;
+	border: 0.5px solid #12526d;
+	padding: 5px 0;
+}
+
+div.login_submit {
+	display: grid;
+	place-content: center;
+	margin-top: 5px;
+}
+
+/* ---- 処理完了メッセージの出力箇所 ---- */
+div.message {
+	height: 150px;
+	padding-top: 30px;
+	text-align: center;
+}
+
+/* ---- ボタン全般 ---- */
+input[type=submit] {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #808080;
+	padding: 0px 10px;
+	border-radius: 6px;
+	color: #12526d;
+}
+
+label:hover {
+	background-color:darkorange;
+	cursor: pointer;
+	font-size: bold;
+}
+
+input[type=submit]:hover {
+	background-color: darkorange;
+}
+
+/* ---- エラーメッセージ ---- */
+.error {
+	color: #FF0000;
+}
+
+.warning {
+	color: #FF0000;
+}

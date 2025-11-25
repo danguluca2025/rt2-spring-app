@@ -31,6 +31,7 @@ public class SearchForEmployeesByEmpNameService {
 	EmployeeRepository employeeRepository;
 
 	/**
+	 * [管理者用]
 	 * 従業員名による部分一致検索を実行します。
 	 * 
 	 * 指定された検索文字列を含む従業員名を持つ従業員を検索し、
@@ -49,6 +50,18 @@ public class SearchForEmployeesByEmpNameService {
 		return tempEmployeeBeans;
 	}
 	
+	/**
+	 * [一般ユーザ]
+	 * 従業員名による部分一致検索を実行します。
+	 * 
+	 * 指定された検索文字列を含む一般権限従業員名を持つ従業員を検索し、
+	 * BeanManagerを使用してEmployeeBeanリストに変換して返却します。
+	 * 検索は大文字小文字を区別し、部分一致で行われます。
+	 * 
+	 * @param searchString 検索対象の文字列（従業員名に含まれる文字列）
+	 * @return 検索文字列を含む一般権限従業員名を持つEmployeeBeanリスト（従業員ID昇順）。
+	 *         該当する従業員が存在しない場合は空のリストを返却
+	 */
 	public List<EmployeeBean> executeGeneral(String empName){
 		List<Employee> employees = employeeRepository.findByEmpNameGeneral(empName);
 		List<EmployeeBean> tempEmployeeBeans = BeanManager.copyEntityListToBeanList(employees);

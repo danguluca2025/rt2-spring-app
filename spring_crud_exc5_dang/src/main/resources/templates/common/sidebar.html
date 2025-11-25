@@ -6,115 +6,79 @@
 </head>
 
 <body>
+	<!--サイドバー検索機能　記述欄-->
 	<aside th:fragment="layout-sidebar"
 		th:class="${session.user == null or session.user.authority == 2} ? ${'search'} : ${'admin_menu'}">
-		<div class="title">社員名検索</div>
-		<div class="form">
-			<form th:action="@{/list/empName}" method="get">
-				<input type="text" name="empName" />
-				<input type="submit" value="検索">
-			</form>
+		<!-- 全件検索 -->
+		<div class="aside-block">
+			<div class="title" id="search-all"><a th:href="@{/list}" title="社員一覧に戻る">※ 全件検索 ※</a></div>
+		</div>
+		<!--社員名検索ブロック-->
+		<div class="aside-block">
+			<div class="title">社員名検索</div>
+			<div class="form">
+				<form th:action="@{/list/empName}" method="get">
+					<input type="text" name="empName" placeholder="&quot;郎&quot; &quot;田中&quot; &quot;A&quot;"
+						title="社員名入力" />
+					<input type="submit" value="検索">
+				</form>
+			</div>
 		</div>
 
-		<div class="title">部署名検索</div>
-		<div class="form">
-			<form th:action="@{/list/deptId}" method="get">
-				<span th:if="${selectedDeptId == null}">
-					<select name="deptId">
-						<option value="1" selected>営業部</option>
-						<option value="2">経理部</option>
-						<option value="3">総務部</option>
-					</select>
-				</span>
+		<!--部署名検索ブロック-->
+		<div class="aside-block">
+			<div class="title">部署名検索</div>
+			<div class="form">
+				<form th:action="@{/list/deptId}" method="get">
+					<span th:if="${selectedDeptId == null}">
+						<select name="deptId" class="dropdown-list">
+							<option value="1" selected>営業部</option>
+							<option value="2">経理部</option>
+							<option value="3">総務部</option>
+						</select>
+					</span>
 
-				<span th:unless="${selectedDeptId == null}">
-					<select name="deptId">
-						<option value="1" th:selected="${selectedDeptId}== '1'">営業部</option>
-						<option value="2" th:selected="${selectedDeptId}== '2'">経理部</option>
-						<option value="3" th:selected="${selectedDeptId}== '3'">総務部</option>
-					</select>
-				</span>
-				<input type="submit" value="検索">
-			</form>
+					<span th:unless="${selectedDeptId == null}">
+						<select name="deptId">
+							<option value="1" th:selected="${selectedDeptId}== '1'">営業部</option>
+							<option value="2" th:selected="${selectedDeptId}== '2'">経理部</option>
+							<option value="3" th:selected="${selectedDeptId}== '3'">総務部</option>
+						</select>
+					</span>
+					<input type="submit" value="検索">
+				</form>
+			</div>
 		</div>
 
+		<!--独自機能：拡張検索ブロック-->
 		<th:block th:switch="${session.loginUser.authority}">
 			<span th:case="1" style="display:none;"></span>
+
+			<!--管理者専用-->
 			<span th:case="2">
+
+				<!--1:生年月日の範囲検索-->
 				<div class="title">生年月日の範囲検索</div>
 				<div class="form">
 					<form th:action="@{/list/birthday}" method="get">
-						開始日：<input type="text" name="birthday1" placeholder="西暦：yyyy/MM/dd" /><br>
-						終了日：<input type="text" name="birthday2" placeholder="西暦：yyyy/MM/dd" /><br>
+						開始日：<input type="text" name="birthday1" placeholder="YYYY/MM/DD" title="この日付から" /><br>
+						終了日：<input type="text" name="birthday2" placeholder="YYYY/MM/DD" title="この日付まで" /><br>
 						<input type="submit" value="検索">
 					</form>
 				</div>
 
+				<!--2:住所検索-->
 				<div class="title">住所検索</div>
 				<div class="form">
 					<form th:action="@{/list/address}" method="get">
-
-						<!--
-						地域いちいち記述なくてもリストで取り出せるが、
-						検索の後に場合によって選択ボックスが複製されたり
-						当てはまる地域以外は消えたりするのでやめとく
-						-->
-
-						<!--						<div th:each="employee: ${employees}">-->
-						<!--							<input type="checkbox" name="address" th:value="${employee.address}"-->
-						<!--								th:id="${employee.empId}">-->
-						<!--							<label th:for="${employee.empId}" th:text="${employee.address}" th:selected="${selectedAddress}== '${employee.address}'"></label>-->
-						<!--						</div>-->
-						<div class="area-box">
-							<div>関東</div>
-							<input type="checkbox" name="address" value="東京都" id="tokyo">
-							<label for="tokyo">東京都</label>
-							<input type="checkbox" name="address" value="千葉県" id="chiba">
-							<label for="chiba">千葉県</label><br>
-
-							<input type="checkbox" name="address" value="埼玉県" id="saitama">
-							<label for="saitama">埼玉県</label>
-							<input type="checkbox" name="address" value="神奈川県" id="kanagawa">
-							<label for="kanagawa">神奈川県</label><br>
-						</div>
-
-						<div class="area-box">
-							<div>近畿</div>
-							<input type="checkbox" name="address" value="大阪府" id="osaka">
-							<label for="osaka">大阪府</label>
-							<input type="checkbox" name="address" value="京都府" id="kyoto">
-							<label for="kyoto">京都府</label><br>
-						</div>
-
-						<div class="area-box">
-							<div>東海</div>
-							<input type="checkbox" name="address" value="静岡県" id="shizuoka">
-							<label for="shizuoka">静岡県</label>
-							<input type="checkbox" name="address" value="愛知県" id="aichi">
-							<label for="aichi">愛知県</label><br>
-
-							<input type="checkbox" name="address" value="岐阜県" id="gifu">
-							<label for="gifu">岐阜県</label>
-							<input type="checkbox" name="address" value="群馬県" id="gunma">
-							<label for="gunma">群馬県</label><br>
-						</div>
-
-						<div class="area-box">
-							<div>その他</div>
-							<input type="checkbox" name="address" value="北海道" id="hokkaido">
-							<label for="hokkaido">北海道</label>
-							<input type="checkbox" name="address" value="沖縄県" id="okinawa">
-							<label for="okinawa">沖縄県</label><br>
-
-							<input type="checkbox" name="address" value="島根県" id="shimane">
-							<label for="shimane">島根県</label>
-							<input type="checkbox" name="address" value="福島県" id="fukushima">
-							<label for="fukushima">福島県</label><br>
-
-							<input type="checkbox" name="address" value="長野県" id="nagano">
-							<label for="nagano">長野県</label>
-							<input type="checkbox" name="address" value="高知県" id="kochi">
-							<label for="kochi">高知県</label><br>
+						<div class="area-search">
+							<div th:each="address : ${uniqueAddresses}" class="area-box">
+								<input type="checkbox" name="address" th:value="${address}"
+									th:id="${'address-' + address.hashCode()}"
+									th:checked="${#lists.contains(selectedAddresses, address)}">
+								<label th:for="${'address-' + address.hashCode()}" th:text="${address}">
+								</label>
+							</div>
 						</div>
 						<input type="submit" value="検索">
 					</form>
@@ -122,6 +86,7 @@
 			</span>
 		</th:block>
 	</aside>
+	<!--サイドバー検索機能　記述欄終了-->
 </body>
 
 </html>

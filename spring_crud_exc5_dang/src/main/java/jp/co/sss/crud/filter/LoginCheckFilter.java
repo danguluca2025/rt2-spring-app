@@ -19,10 +19,10 @@ public class LoginCheckFilter extends HttpFilter {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		
+
 		//URLをリクエストし取得する
 		String requestURL = request.getRequestURI();
-		
+
 		/*静的情報を許可
 		 * .htmlファイルや.cssファイルなど許可しないと表示自体できなくなる（真っ白画面）
 		 * */
@@ -33,35 +33,61 @@ public class LoginCheckFilter extends HttpFilter {
 			chain.doFilter(request, response);
 			return;
 		}
+
+		//セッション情報を取得(null)
+		HttpSession session = request.getSession(false); 
 		
-		/*ログイン関係処理のフィルタ除外
-		 * ("/")トップ画面：除外しないとログインできない
-		 * ("/login")ログイン成功画面：ログインしても進めない（/listに移動できない）
-		 * ("/logout")ログアウト処理をできない（invalidate()メソッドを実行せず、ログアウトできない）
+		//loginUserを一旦nullで初期化
+		EmployeeBean loginUser = null;
+
+		/* 
+		 * 1.if(session != null){}
+		 * sessionがnullでないことを確認してから属性を取得する
+		 * セッション情報はnullではない場合、セッションのゲッターでloginUserを再度取得して
+		 * 最初nullになっているBean型のloginUserに返却
+		 * 
+		 * 2.if(loginUser != null && ...){}
+		 * ログイン中 + アクセスしようとするURLはログイン画面(/spring_crud/) 
+		 * あるいは (/login)(POSTメソッドで普段URLからアクセスできないが念のため入れておく)である場合
+		 * 社員一覧画面にリダイレクトし、処理を終了する(return)
+		 * 
+		 * 3.if(requestURL.endsWith("/spring_crud/") ||...){}
+		 * フィルタ除外対象のURLを許可
+		 * ・("/spring_crud/")
+		 * ・("/login")
+		 * ・("/login")
+		 * 処理を終了する(return)
+		 * 
+		 * 4.if (loginUser == null){}
+		 * 未ログイン時の処理
+		 * ログインしない状態で社員一覧画面などにアクセスしようとする場合にアクセス制限
+		 * 処理を終了する(return)
+		 * 
+		 * 5. (上のif文に全て当てはまらない場合)
+		 * ログイン済みユーザーの通常アクセスを許可
 		 * */
-		if (requestURL.endsWith("/") ||
-				requestURL.endsWith("/login")||
-				requestURL.endsWith("/logout")) {
-			chain.doFilter(request, response);
-			return;
+		if (session != null) {
+		    loginUser = (EmployeeBean) session.getAttribute("loginUser");
 		}
-		
-		//セッション情報を取得
-		HttpSession session = request.getSession();
-		//取得した情報から"loginUser"属性が持つ情報をEmployeeBean型の「loginUser」変数に取り出す
-		EmployeeBean loginUser = (EmployeeBean) session.getAttribute("loginUser");
-		
-		//上記の「loginUser」変数を条件分岐で判定
+
+		if (loginUser != null && 
+		    (requestURL.endsWith("/spring_crud/") || requestURL.endsWith("/login"))) {
+		    response.sendRedirect("/spring_crud/list");
+		    return;
+		}
+
+		if (requestURL.endsWith("/spring_crud/") ||
+		        requestURL.endsWith("/login") ||
+		        requestURL.endsWith("/login")) {
+		    chain.doFilter(request, response);
+		    return;
+		}
+
 		if (loginUser == null) {
-			/*nullの場合
-			 *@Controllerクラスではないのでreturn "/"できないので 
-			 *代わりにresponseクラスのsendRedirectを使用しURLバインドし移動させる
-			 * */
-			response.sendRedirect("/spring_crud/");
-			return;
-		} else {
-			chain.doFilter(request, response);
-			return;
-		}
+		    response.sendRedirect("/spring_crud/");
+		    return;
+		} 
+		
+		chain.doFilter(request, response);
 	}
 }

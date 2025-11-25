@@ -29,7 +29,9 @@ public class SearchAllEmployeesService {
 	//TODO ここに記述
 	@Autowired
 	EmployeeRepository employeeRepository;
+	
 	/**
+	 * [管理者用]
 	 * 全従業員情報を取得します。
 	 * 
 	 * データベースから全ての従業員エンティティを従業員ID昇順で取得し、
@@ -45,6 +47,15 @@ public class SearchAllEmployeesService {
 		return tempEmployeeBeans;
 	}
 	
+	/**
+	 * [管理者用]
+	 * 全従業員情報を取得します。
+	 * 
+	 * データベースから一般権限全ての従業員エンティティを従業員ID昇順で取得し、
+	 * BeanManagerを使用してEmployeeBeanリストに変換して返却します。
+	 * 
+	 * @return 全一般権限従業員のEmployeeBeanリスト（従業員ID昇順）。データが存在しない場合は空のリストを返却
+	 */
 	public List<EmployeeBean> executeGeneral(){
 		List<Employee> employees = employeeRepository.findByAuthorityOrderByEmpIdAsc(1);
 		List<EmployeeBean> tempEmployeeBeans = BeanManager.copyEntityListToBeanList(employees);
