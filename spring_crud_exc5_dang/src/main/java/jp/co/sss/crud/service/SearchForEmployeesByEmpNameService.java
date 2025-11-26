@@ -44,7 +44,7 @@ public class SearchForEmployeesByEmpNameService {
 	 */
 	//TODO ここに記述
 	public List<EmployeeBean> execute(String empName){
-		List<Employee> employees = employeeRepository.findByEmpNameContaining(empName);
+		List<Employee> employees = employeeRepository.findByEmpNameContainingOrderByEmpId(empName);
 		List<EmployeeBean> tempEmployeeBeans = BeanManager.copyEntityListToBeanList(employees);
 		
 		return tempEmployeeBeans;

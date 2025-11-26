@@ -25,7 +25,9 @@ public class RegistrationController {
 	 * @return 遷移先のビュー
 	 */
 	@RequestMapping(path = "/regist/input", method = RequestMethod.GET)
-	public String inputRegist(@ModelAttribute EmployeeForm employeeForm) {
+	public String inputRegist(@ModelAttribute EmployeeForm employeeForm,Model model) {
+		
+		/*住所表示*/
 		employeeForm.setGender(Constant.DEFAULT_GENDER);
 		employeeForm.setAuthority(Constant.DEFAULT_AUTHORITY);
 		employeeForm.setDeptId(Constant.DEFAULT_DEPT_ID);
@@ -43,8 +45,8 @@ public class RegistrationController {
 	 * @return 遷移先のビュー
 	 */
 	@RequestMapping(path = "/regist/check", method = RequestMethod.POST)
-	public String checkRegist(@Valid @ModelAttribute EmployeeForm employeeForm, BindingResult result, Model model) {
-		
+	public String checkRegist(@Valid @ModelAttribute 
+			EmployeeForm employeeForm, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "regist/regist_input";
 		}else {

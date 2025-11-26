@@ -82,12 +82,13 @@ public class ListController {
 			model.addAttribute("employees", allEmployeeList);
 			break;
 		}
-
+		
+		/*---住所検索表示---*/
 		Set<String> uniqueAddresses = searchForEmployeesByAddressService.findAllUniqueAddresses();
 		model.addAttribute("uniqueAddresses", uniqueAddresses);
-
 		model.addAttribute("selectedAddresses", new ArrayList<String>());
-
+		/*---住所検索表示---*/
+		
 		return "list/list";
 	}
 
@@ -122,6 +123,13 @@ public class ListController {
 			model.addAttribute("employees", searchByEmpNameList);
 			break;
 		}
+		
+		/*---住所検索表示---*/
+		Set<String> uniqueAddresses = searchForEmployeesByAddressService.findAllUniqueAddresses();
+		model.addAttribute("uniqueAddresses", uniqueAddresses);
+		model.addAttribute("selectedAddresses", new ArrayList<String>());
+		/*---住所検索表示---*/
+		
 		return "list/list";
 	}
 
@@ -158,6 +166,13 @@ public class ListController {
 			model.addAttribute("employees", searchByDepartmentList);
 			break;
 		}
+		
+		/*---住所検索表示---*/
+		Set<String> uniqueAddresses = searchForEmployeesByAddressService.findAllUniqueAddresses();
+		model.addAttribute("uniqueAddresses", uniqueAddresses);
+		model.addAttribute("selectedAddresses", new ArrayList<String>());
+		/*---住所検索表示---*/
+		
 		return "list/list";
 	}
 
@@ -199,14 +214,16 @@ public class ListController {
 
 		List<EmployeeBean> searchByAdressList = searchForEmployeesByAddressService.execute(addressList);
 		model.addAttribute("employees", searchByAdressList);
-
+		
+		/*---住所検索表示---*/
 		Set<String> uniqueAddresses = searchForEmployeesByAddressService.findAllUniqueAddresses();
 		model.addAttribute("uniqueAddresses", uniqueAddresses);
-
 		model.addAttribute("selectedAddresses", addressList);
-
+		/*---住所検索表示---*/
+		
 		return "list/list";
 	}
+	
 
 	/**
 	 * [管理者専用]
@@ -223,11 +240,17 @@ public class ListController {
 	 */
 	@RequestMapping(path = "/list/birthday", method = RequestMethod.GET)
 	public String findByBirthday(Date birthday1, Date birthday2, Model model) {
+		
 		List<EmployeeBean> searchByBirthdayList = null;
-
 		searchByBirthdayList = searchForEmployeesByBirthdayService.execute(birthday1, birthday2);
-
 		model.addAttribute("employees", searchByBirthdayList);
+		
+		/*---住所検索表示---*/
+		Set<String> uniqueAddresses = searchForEmployeesByAddressService.findAllUniqueAddresses();
+		model.addAttribute("uniqueAddresses", uniqueAddresses);
+		model.addAttribute("selectedAddresses", new ArrayList<String>());
+		/*---住所検索表示---*/
+		
 		return "list/list";
 	}
 

@@ -33,8 +33,8 @@ public class DeleteController {
 
 		//TODO SearchForEmployeesByEmpIdService完成後にコメントを外す
 		model.addAttribute("employee", searchForEmployeesByEmpIdService.execute(empId));
-
 		return "delete/delete_check";
+		
 	}
 
 	/**
@@ -50,6 +50,7 @@ public class DeleteController {
 		//削除実施
 		//TODO DeleteEmployeeService完成後にコメントを外す
 		deleteEmployeeService.execute(empId);
+		
 		return "redirect:/delete/complete";
 	}
 

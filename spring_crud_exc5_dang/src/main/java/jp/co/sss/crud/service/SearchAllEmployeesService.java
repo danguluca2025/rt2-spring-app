@@ -41,7 +41,7 @@ public class SearchAllEmployeesService {
 	 */
 	//TODO ここに記述
 	public List<EmployeeBean> execute(){
-		List<Employee> employees = employeeRepository.findAllByOrderByEmpIdAsc();
+		List<Employee> employees = employeeRepository.findAllByOrderByEmpId();
 		List<EmployeeBean> tempEmployeeBeans = BeanManager.copyEntityListToBeanList(employees);
 		
 		return tempEmployeeBeans;
@@ -57,7 +57,7 @@ public class SearchAllEmployeesService {
 	 * @return 全一般権限従業員のEmployeeBeanリスト（従業員ID昇順）。データが存在しない場合は空のリストを返却
 	 */
 	public List<EmployeeBean> executeGeneral(){
-		List<Employee> employees = employeeRepository.findByAuthorityOrderByEmpIdAsc(1);
+		List<Employee> employees = employeeRepository.findByAuthorityOrderByEmpId(1);
 		List<EmployeeBean> tempEmployeeBeans = BeanManager.copyEntityListToBeanList(employees);
 		
 		return tempEmployeeBeans;

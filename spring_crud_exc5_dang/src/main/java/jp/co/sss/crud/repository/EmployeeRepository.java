@@ -12,7 +12,7 @@ import jp.co.sss.crud.entity.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	/**
-	 * ログイン機能用
+	 * [ログイン機能用]
 	 * 社員ID％パスワード検索
 	 * @param empId
 	 * @param empPass
@@ -27,7 +27,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	 * 主キーの昇順並べ
 	 * @return 部分一致内容をlistビューに反映
 	 */
-	List<Employee> findAllByOrderByEmpIdAsc();
+	List<Employee> findAllByOrderByEmpId();
 	
 	/**
 	 * [一般ユーザ制限用]
@@ -38,7 +38,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	 * @param authority 権限
 	 * @return 部分一致内容をlistビューに反映
 	 */
-	List<Employee> findByAuthorityOrderByEmpIdAsc(Integer authority);
+	List<Employee> findByAuthorityOrderByEmpId(Integer authority);
 	
 	
 	/**
@@ -47,7 +47,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	 * @param empName 社員名
 	 * @return 部分一致内容をlistビューに反映
 	 */
-	List<Employee> findByEmpNameContaining(String empName);
+	List<Employee> findByEmpNameContainingOrderByEmpId(String empName);
 	
 	/**
 	 * [一般ユーザ用]
@@ -59,7 +59,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	 * @param empName
 	 * @return 部分一致内容をlistビューに反映
 	 */
-	@Query("SELECT e FROM Employee e WHERE e.empName LIKE %:empName% AND e.authority = 1")
+	@Query("SELECT e FROM Employee e WHERE e.empName LIKE %:empName% AND e.authority = 1 ORDER BY e.empId")
 	List<Employee> findByEmpNameGeneral(String empName);
 
 	
@@ -75,7 +75,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	 * @param department
 	 * @return 部分一致内容をlistビューに反映
 	 */
-	List<Employee> findByDepartment(Department department);
+	List<Employee> findByDepartmentOrderByEmpId(Department department);
 	
 	/**
 	 * [一般ユーザ用]
@@ -86,10 +86,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	 * @param authority 場合分け
 	 * @return 部分一致内容をlistビューに反映
 	 */
-	List<Employee> findByDepartmentAndAuthority(Department department,Integer authority);
+	List<Employee> findByDepartmentAndAuthorityOrderByEmpId(Department department,Integer authority);
 	
 	/**
-	 * [管理者専用]
+	 * [管理者-専用]
 	 * 住所検索
 	 * 複数選択検索
 	 * 
@@ -99,7 +99,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	List<Employee> findByAddressInOrderByEmpId(List<String> addressList);
 	
 	/**
-	 * [管理者専用]
+	 * [管理者-専用]
 	 * 生年月日の範囲検索
 	 * 開始日＞終了日の全て当てはまる従業員レコードを取り出す
 	 * 
@@ -107,7 +107,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 	 * @param birthday2 終了日
 	 * @return 部分一致内容をlistビューに反映
 	 */
-	@Query("SELECT e FROM Employee e WHERE e.birthday BETWEEN :birthday1 AND :birthday2")
+	@Query("SELECT e FROM Employee e WHERE e.birthday BETWEEN :birthday1 AND :birthday2 ORDER BY e.empId")
 	List<Employee> findByBirthday(Date birthday1, Date birthday2);
-
 }

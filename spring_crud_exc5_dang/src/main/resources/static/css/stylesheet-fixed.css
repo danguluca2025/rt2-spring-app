@@ -208,13 +208,6 @@ div.login_input {
 	gap: 10px;
 }
 
-input[type=text],
-input[type=password] {
-	border-radius: 5px;
-	border: 0.5px solid #12526d;
-	padding: 5px 0;
-}
-
 div.login_submit {
 	display: grid;
 	place-content: center;
@@ -229,23 +222,43 @@ div.message {
 }
 
 /* ---- ボタン全般 ---- */
+input[type=text],
+input[type=password] {
+	border-radius: 5px;
+	border: 0.5px solid #12526d;
+	padding: 5px;
+}
+
 input[type=submit] {
-	border-width: 1px;
-	border-style: solid;
-	border-color: #808080;
-	padding: 0px 10px;
-	border-radius: 6px;
+	padding: 3px 5px;
+	border:0.5px solid #12526d;
+	border-radius: 5px;
 	color: #12526d;
+	cursor: pointer;
 }
 
 label:hover {
 	background-color:darkorange;
 	cursor: pointer;
 	font-size: bold;
+	border-radius: 5px;
 }
 
 input[type=submit]:hover {
 	background-color: darkorange;
+}
+
+input[type=radio]{
+	display:none;
+}
+.radio-label{
+	padding: 0 2px;
+	border-radius: 5px;
+	border: 0.5px solid #12526d;
+}
+
+input[type=radio]:checked + label{
+	background-color:#87CEEB;
 }
 
 /* ---- エラーメッセージ ---- */

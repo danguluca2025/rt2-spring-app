@@ -53,7 +53,7 @@ public class SearchForEmployeesByDepartmentService {
 		*/
 		department.setDeptId(deptId);
 		//検索結果を取得するリスト型オブジェクトを定義し、リポジトリにある検索メソッドの実行結果を代入
-		List<Employee> employees = employeeRepository.findByDepartment(department);
+		List<Employee> employees = employeeRepository.findByDepartmentOrderByEmpId(department);
 		//上記の検索結果オブジェクトをBeanオブジェクトにコピー
 		List<EmployeeBean> tempEmployeeBeans = BeanManager.copyEntityListToBeanList(employees);
 		
@@ -81,7 +81,7 @@ public class SearchForEmployeesByDepartmentService {
 		 */
 		department.setDeptId(deptId);
 		//検索結果を取得するリスト型オブジェクトを定義し、リポジトリにある検索メソッドの実行結果を代入
-		List<Employee> employees = employeeRepository.findByDepartmentAndAuthority(department,1);
+		List<Employee> employees = employeeRepository.findByDepartmentAndAuthorityOrderByEmpId(department,1);
 		//上記の検索結果オブジェクトをBeanオブジェクトにコピー
 		List<EmployeeBean> tempEmployeeBeans = BeanManager.copyEntityListToBeanList(employees);
 		

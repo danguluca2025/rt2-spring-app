@@ -12,14 +12,15 @@
 		<div th:object="${loginForm}" class="login_block">
 			<h3>ログイン画面</h3>
 
-			<p>
-				<span th:each="error:${#fields.detailedErrors('*')}">
-					<span th:text="${error.message}" class="error"></span><br />
-				</span>
-				<span th:text="${errMessage}" class="error"></span>
-			</p>
+
 
 			<div class="login_form">
+				<p>
+					<span th:each="error:${#fields.detailedErrors('*')}">
+						<span th:text="${error.message}" class="error"></span><br />
+					</span>
+					<span th:text="${errMessage}" class="error"></span>
+				</p>
 				<form method="post" th:action="@{/login}">
 					<div class="login_box">
 						<div class="login_input">

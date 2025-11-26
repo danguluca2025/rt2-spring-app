@@ -47,9 +47,6 @@ public class UpdateEmployeeService {
 	//TODO ここに記述
 	public void execute(EmployeeForm employeeForm) {
 		Employee employee = BeanManager.copyFormToEntity(employeeForm);
-//		if(employeeRepository.getReferenceById(employeeForm.getEmpId())!= null) {
-//			employee = employeeRepository.save(employee);
-//		}
 		employee = employeeRepository.save(employee);
 	}
 

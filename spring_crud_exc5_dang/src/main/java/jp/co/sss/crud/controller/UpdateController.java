@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jp.co.sss.crud.bean.EmployeeBean;
 import jp.co.sss.crud.form.EmployeeForm;
@@ -38,18 +40,19 @@ public class UpdateController {
 	 * @throws ParseException 
 	 */
 	@RequestMapping(path = "/update/input", method = RequestMethod.GET)
-	public String inputUpdate(Integer empId, @ModelAttribute EmployeeForm employeeForm, Model model) {
+	public String inputUpdate(Integer empId,
+			@ModelAttribute EmployeeForm employeeForm, Model model) {
 		//list.htmlからempId情報を受け取る
 		//EmployeeBeanのオブジェクトを生成し、初期値はnullとする
 		EmployeeBean employeeBean = null;
-		
+
 		/*主キー検索の検索クラスのメソッドに上のempIdを引数として渡し、メソッドを実行
 		 * 実行結果を生成したemployeeBeanオブジェクトに代入
 		 * 
 		 * */
 		//TODO SearchForEmployeesByEmpIdService完成後にコメントを外す
 		employeeBean = searchForEmployeesByEmpIdService.execute(empId);
-		
+
 		/*BeanManagerのcopyBeantoFormメソッドで上記取得した情報を
 		 * @ModelAttributeのフォームスコープemployeeFormに値を渡し
 		 * リクエストスコープでビュー「update_input」に渡す
@@ -72,13 +75,15 @@ public class UpdateController {
 	 * @return 遷移先のビュー
 	 */
 	@RequestMapping(path = "/update/check", method = RequestMethod.POST)
-	public String checkUpdate(@Valid @ModelAttribute EmployeeForm employeeForm, BindingResult result, Model model) {
+	public String checkUpdate(@Valid @ModelAttribute EmployeeForm employeeForm, BindingResult result,
+			Model model, HttpSession session, HttpServletRequest request) {
+
 		if(result.hasErrors()) {
 			return "update/update_input";
 		}else {
 			return "update/update_check";
 		}
-		
+
 	}
 
 	/**

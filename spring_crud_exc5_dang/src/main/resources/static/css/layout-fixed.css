@@ -70,14 +70,17 @@ aside .form {
 }
 
 aside input[type=text] {
-	width: 110px;
+	width: 100px;
 	margin-right: 10px;
 	border-radius: 5px;
-	text-align: center;
+}
+
+aside input[type=submit] {
+	margin-top: 3px;
 }
 
 aside select {
-	margin-right:10px;
+	margin-right: 10px;
 	vertical-align: middle;
 	width: 110px;
 	text-align: center;
@@ -85,14 +88,8 @@ aside select {
 
 select,
 ::picker(select) {
-  appearance: base-select;
+	appearance: base-select;
 }
-
-aside input[type=submit] {
-	width: 50px;
-	margin-right: 5px;
-}
-
 
 /*--- 住所検索 ---*/
 .area-search {
@@ -117,6 +114,24 @@ aside input[type=submit] {
 article {
 	width: 700px;
 	padding-left: 20px;
+}
+
+/* ---- 登録・変更・削除 ---- */
+.admin-inner{
+	display: grid;
+	grid-template-columns: 1fr;
+	place-content: center;
+	width: 100%;
+}
+.change-box{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.update{
+	border: 2px solid #87CEEB;
+	border-radius: 5px;
+	width: 50%;
 }
 
 /* ---- フッター ---- */
