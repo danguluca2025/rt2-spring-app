@@ -17,8 +17,9 @@
 							<span th:text="${error.message}" class="error"></span><br />
 						</span>
 					</p>
-					
+
 					<th:block th:switch="${session.loginUser.authority}">
+
 						<span th:case="1">
 							<div class="form">
 								<div class="label">パスワード：</div>
@@ -26,12 +27,13 @@
 									<input type="password" th:field="*{empPass}" />
 								</div>
 							</div>
-							
+
 							<div class="form">
 								<div class="label">社員名：</div>
-								<div class="input required">
+								<div class="input required" style="display:none;">
 									<input type="text" th:field="*{empName}" />
 								</div>
+								<div class="input" th:text="${session.loginUser.empName}"></div>
 							</div>
 
 							<div class="form">
@@ -57,25 +59,32 @@
 									<input type="text" th:field="*{birthday}" />(YYYY/MM/DD)
 								</div>
 							</div>
-
 							<div class="form">
 								<div class="label">権限：</div>
-								<div class="input">
+								<div class="input" style="display:none;">
 									<input type="radio" th:field="*{authority}" value="1" id="generalUser" />
-									<label class="radio-label" for="generalUser">一般</label>&nbsp;&nbsp;
-									<input type="radio" th:field="*{authority}" value="2" id="adminUser" />
-									<label class="radio-label" for="adminUser">管理者</label>
+									<label class="radio-label" for="generalUser">一般</label>
+								</div>
+
+								<div class="input" th:switch="${session.loginUser.authority}">
+									<span th:case="1">一般</span>
+									<span th:case="2">管理者</span>
 								</div>
 							</div>
 
 							<div class="form">
 								<div class="label">部署名：</div>
-								<div class="input">
+								<div class="input" style="display:none;">
 									<select th:field="*{deptId}">
 										<option value="1">営業部</option>
 										<option value="2">経理部</option>
 										<option value="3">総務部</option>
 									</select>
+								</div>
+								<div class="input" th:switch="${session.loginUser.deptId}">
+									<span th:case="1">営業部</span>
+									<span th:case="2">経理部</span>
+									<span th:case="3">総務部</span>
 								</div>
 							</div>
 
